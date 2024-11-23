@@ -11,6 +11,6 @@ public interface AccountService {
     List<AccountView> getAccountList(String name);
     List<AccountView> getAccountList(String name, String role);
     AccountView create(CreateAccountForm form);
-    AccountView update(Long id, UpdateAccountForm form);
+    AccountView update(UpdateAccountForm form);
     void delete(Long id);
 }

@@ -16,7 +16,7 @@ import java.util.List;
 @Transactional
 public class AccountServiceImpl implements AccountService {
 
-    private AccountRepository accountRepository;
+    private final AccountRepository accountRepository;
 
     @Override
     public List<AccountView> getAccountList() {
@@ -26,7 +26,7 @@ public class AccountServiceImpl implements AccountService {
     @Override
     public List<AccountView> getAccountList(String name) {
         return accountRepository.findByNameLike(name).stream().map(AccountView::of).toList();
-    }
+     }
 
     @Override
     public List<AccountView> getAccountList(String name, String role) {
@@ -39,8 +39,8 @@ public class AccountServiceImpl implements AccountService {
     }
 
     @Override
-    public AccountView update(Long id, UpdateAccountForm form) {
-        Account account = accountRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("Account Not Found"));
+    public AccountView update(UpdateAccountForm form) {
+        Account account = accountRepository.findById(form.getId()).orElseThrow(() -> new IllegalArgumentException("Account Not Found"));
 
         account.setName(form.getName());
         account.setRole(form.getRole());

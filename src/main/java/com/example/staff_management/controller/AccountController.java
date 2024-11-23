@@ -4,26 +4,24 @@ import com.example.staff_management.form.CreateAccountForm;
 import com.example.staff_management.form.UpdateAccountForm;
 import com.example.staff_management.service.AccountService;
 import com.example.staff_management.view.AccountView;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.authentication.AbstractAuthenticationToken;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/account")
+@RequestMapping("/accounts")
+@SecurityRequirement(name = "basicAuth")
 @RequiredArgsConstructor
 public class AccountController {
 
-    private AccountService accountService;
+    private final AccountService accountService;
 
     @GetMapping
-    public List<AccountView> list (@RequestParam String name, String role) {
-        // TODO: search by name or role
-        //  when name and role = null, return all accounts
-        //  when name is not null, return accounts with the name search with LIKE
-        //  when role is not null, return accounts with the role search equals
-        //  when name and role are not null, return accounts with the name search with LIKE and role equals
+    public List<AccountView> list (@RequestParam(required = false) String name, String role) {
         if (name != null && role != null) {
             return accountService.getAccountList(name, role);
         } else if (name != null) {
@@ -36,19 +34,19 @@ public class AccountController {
     }
 
     @PostMapping
-    public AccountView create(@Valid @RequestBody CreateAccountForm form) {
+    public AccountView create(@RequestBody CreateAccountForm form) {
         return accountService.create(form);
     }
 
 
     @PutMapping
-    public AccountView update(Long id, UpdateAccountForm form) {
+    public AccountView update(@RequestBody UpdateAccountForm form) {
         // TODO: implement update account
-        return accountService.update(id, form);
+        return accountService.update(form);
     }
 
     @DeleteMapping
-    public void delete(@RequestParam Long id) {
+    public void delete(@RequestBody Long id) {
         // TODO: implement delete account
         accountService.delete(id);
     }

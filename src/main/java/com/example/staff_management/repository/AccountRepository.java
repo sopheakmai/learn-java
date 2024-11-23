@@ -7,6 +7,7 @@ import org.springframework.data.jpa.repository.Query;
 import java.util.List;
 
 public interface AccountRepository extends JpaRepository<Account, Long> {
+
     Account findByName(String name);
 
     @Query("SELECT acc FROM Account acc WHERE acc.name LIKE %:name%")

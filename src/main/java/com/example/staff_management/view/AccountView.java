@@ -8,10 +8,12 @@ import lombok.Data;
 @Builder
 public class AccountView {
 
+    private Long id;
     private String name;
     private String role;
+    private String status;
 
     public static AccountView of(Account account) {
-        return AccountView.builder().name(account.getName()).role(account.getRole()).build();
+        return AccountView.builder().id(account.getId()).name(account.getName()).role(account.getRole()).status(account.getStatus()).build();
     }
 }
